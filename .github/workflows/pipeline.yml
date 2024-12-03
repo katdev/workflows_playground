@@ -35,7 +35,7 @@ jobs:
           echo "git branch -r: $(git branch -r)"
           echo "github.ref: ${{ github.ref }}"
           echo "github.ref_name: ${{ github.ref_name }}"
-          CHANGED_FILES=$(git diff --name-only ${{ github.ref }} main)
+          CHANGED_FILES=$(git diff --name-only origin/main -- my_yamls/)
           echo $CHANGED_FILES
 
     # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
