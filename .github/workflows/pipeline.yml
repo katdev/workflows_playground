@@ -22,14 +22,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Get-Modified-Yamls:
+  get-modified-yamls:
+    name: Get Modified YAMLs
     runs-on: ubuntu-latest
+    outputs:
+      CHANGED_FILES: ${{ steps.get-modified-yamls.outputs.CHANGED_FILES }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Get Modified YAMLs
+        id: get-modified-yamls
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Run-git-diff
+      - name: run-git-diff
         run: |
           echo "git version: $(git --version)"
           echo "git branch -r: $(git branch -r)"
@@ -37,6 +41,28 @@ jobs:
           echo "github.ref_name: ${{ github.ref_name }}"
           CHANGED_FILES=$(git diff --name-only origin/main -- my_yamls/)
           echo $CHANGED_FILES
+          echo "CHANGED_FILES=$CHANGED_FILES" >> "$GITHUB_OUTPUT"
+  show-modified-yamls:
+    name: Show Modified YAMLs
+    runs-on: ubuntu-latest
+    needs: get-modified-yamls
+    steps:
+      - name: Show Modified YAMLs
+        id: show-modified-yamls
+        env: 
+          CHANGED_FILES: ${{ needs.get-modified-yamls.outputs.CHANGED_FILES }}
+        run: |
+          echo "changed files: $CHANGED_FILES"
+
+
+    # steps:
+    #   run: |
+    #     echo "hi"
+    #     # env:
+    #     #   CHANGED_FILES: ${{ needs.get-modified-yamls.outputs.CHANGED_FILES }}
+
+
+
 
     # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # jobs:
