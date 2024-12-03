@@ -1,4 +1,7 @@
-name: YAML-Validation
+name: YAML-Validation-Jitterbit
+
+# Uses the Jitterbit get-changed-files action
+# https://github.com/jitterbit/get-changed-files/blob/master/src/main.ts
 
 # Controls when the workflow will run
 on:
@@ -23,7 +26,7 @@ concurrency:
 
 jobs:
   get-modified-yamls:
-    name: Get Modified YAMLs
+    name: Get Modified YAMLs Jitterbit
     runs-on: ubuntu-latest
     steps:
       - id: files
@@ -32,7 +35,18 @@ jobs:
           format: 'json'
       - run: |
           echo 'hi'
-          echo ${{ steps.files.outputs }}
+          echo 'added_modified:'
+          printf '%s,' '${{ steps.files.outputs.added_modified }}'
+          echo 'added:'
+          printf '%s,' '${{ steps.files.outputs.added }}'
+          echo 'modified:'
+          printf '%s,' '${{ steps.files.outputs.modified }}'
+          echo 'removed:'
+          printf '%s,' '${{ steps.files.outputs.removed }}'
+          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+          for added_modified_file in "${added_modified_files[@]}"; do
+            echo "Do something with this ${added_modified_file}."
+          done
         #   readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
         #   for removed_file in ${removed_files[@]}; do
         #   echo "Do something with this ${removed_file}."
