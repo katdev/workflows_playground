@@ -31,7 +31,10 @@ jobs:
 
       - name: Run-git-diff
         run: |
-        CHANGED_FILES=$(git diff --name-only HEAD HEAD~1)
+        echo $(git --version)
+        echo ${{ github.ref }}
+        echo ${{ github.ref_name }}
+        CHANGED_FILES=$(git diff --name-only ${{ github.ref }} main)
 
     # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # jobs:
