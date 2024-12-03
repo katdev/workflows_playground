@@ -3,9 +3,9 @@ name: YAML-Validation
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - '**'
+  # push:
+  #   branches:
+  #     - '**'
       # - '!main'
     # paths:
     #   - 'my_yamls/**.yaml'
@@ -55,16 +55,8 @@ jobs:
           echo "changed files: $CHANGED_FILES"
 
 
-    # steps:
-    #   run: |
-    #     echo "hi"
-    #     # env:
-    #     #   CHANGED_FILES: ${{ needs.get-modified-yamls.outputs.CHANGED_FILES }}
 
-
-
-
-    # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # jobs:
 #   # This workflow contains a single job called "build"
 #   build:
