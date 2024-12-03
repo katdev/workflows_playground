@@ -7,9 +7,9 @@ on:
     branches:
       - '**'
       # - '!main'
-    paths:
-      - 'my_yamls/**.yaml'
-      - 'my_yamls/**.yml'
+    # paths:
+    #   - 'my_yamls/**.yaml'
+    #   - 'my_yamls/**.yml'
 
       # Triggers the workflow on push or pull request events but only for the "main" branch
   # push:
@@ -32,6 +32,7 @@ jobs:
       - name: Run-git-diff
         run: |
           echo $(git --version)
+          echo $(git branch -r)
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
           CHANGED_FILES=$(git diff --name-only ${{ github.ref }} main)
